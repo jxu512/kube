@@ -1,0 +1,12 @@
+resources:
+  - ../../base
+namespace: jeff
+configMapGenerator:
+- name: my-config
+  files:
+    - app.properties
+  literals:
+  - url="http://prod.org"
+  - customer=ABC
+patches:
+  - path: nginx-dev.yaml

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        env:
+        - name: URL
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: url
+        - name: CUSTOMER
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: customer
+        volumeMounts:
+          - name: config
+            mountPath: /config
+          - name: props
+            mountPath: /props
+      volumes:
+      - name: config
+        configMap:
+          name: my-config
+          items:
+          - key: "app.properties"
+            path: "app.properties"
+      - name: props
+        configMap:
+          name: my-config
+          items:
+          - key: url
+            path: url
+          - key: customer
+            path: customer

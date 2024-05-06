@@ -1,0 +1,10 @@
+resources:
+  - ../../base
+namespace: jeff
+configMapGenerator:
+- name: my-config
+  files:
+    - app.properties
+  literals:
+  - url="http://dev.org"
+  - customer=ABC
